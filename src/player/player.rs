@@ -1,11 +1,14 @@
 use bevy::prelude::*;
 
-use super::controls::controls_system;
+use crate::movement::{
+    controls::{Controls, Drive, Turn},
+    dynamics::Dynamics,
+};
 
 #[derive(Component)]
 pub struct Player;
 
-fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
+pub(crate) fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn()
         .insert(Player)
@@ -16,20 +19,24 @@ fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
                 translation: default(),
                 rotation: default(),
                 scale: Vec3 {
-                    x: 0.1,
-                    y: 0.1,
+                    x: 0.03,
+                    y: 0.03,
                     z: 1.0,
                 },
             },
             ..default()
+        })
+        .insert(Controls {
+            drive: Drive::Idle,
+            turn: Turn::Idle,
+        })
+        .insert(Dynamics {
+            linear_acceleration: 400.0,
+            idle_breaking: 350.0,
+            max_speed: 200.0,
+            min_spped: -200.0,
+            current_speed: 0.0,
+            turning_speed: 5.0,
+            current_turning_speed: 0.0,
         });
-}
-
-pub struct PlayerPlugin;
-
-impl Plugin for PlayerPlugin {
-    fn build(&self, app: &mut bevy::prelude::App) {
-        app.add_startup_system(spawn_player)
-            .add_system(controls_system);
-    }
 }
