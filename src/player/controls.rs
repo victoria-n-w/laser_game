@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::movement::controls::{Controls, Drive, Turn};
 
-use super::player::Player;
+use super::entity::Player;
 
 pub fn player_controls(
     keyboard: Res<Input<KeyCode>>,

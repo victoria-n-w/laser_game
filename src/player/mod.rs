@@ -1,10 +1,10 @@
 use bevy::prelude::Plugin;
 
 mod controls;
-mod player;
+mod entity;
 
 use self::controls::player_controls;
-use self::player::spawn_player;
+use self::entity::spawn_player;
 
 pub struct PlayerPlugin;
 
