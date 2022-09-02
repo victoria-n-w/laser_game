@@ -28,7 +28,7 @@ pub fn control_random_moves(
     time: Res<Time>,
     mut objects_query: Query<(&mut RandomMoves, &mut Controls)>,
 ) {
-    for (mut moves, mut controls) in objects_query.iter_mut() {
+    objects_query.for_each_mut(|(mut moves, mut controls)| -> () {
         moves.timer.tick(time.delta());
         if moves.timer.finished() {
             controls.turn = rand::random();
@@ -37,5 +37,5 @@ pub fn control_random_moves(
                 false,
             )
         }
-    }
+    })
 }

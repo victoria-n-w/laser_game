@@ -1,7 +1,7 @@
 use bevy::prelude::Plugin;
 
 mod controls;
-mod entity;
+pub mod entity;
 
 use self::controls::player_controls;
 use self::entity::spawn_player;

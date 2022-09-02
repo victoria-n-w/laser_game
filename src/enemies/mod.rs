@@ -3,6 +3,7 @@ use bevy::prelude::Plugin;
 use self::{enemy_entity::spawn_enemy, random_moves::control_random_moves};
 
 mod enemy_entity;
+mod homing;
 mod random_moves;
 
 pub struct RandomEnemiesPlugin;
