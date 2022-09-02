@@ -1,9 +1,6 @@
 use bevy::prelude::*;
 
-use crate::movement::{
-    controls::{Controls, Drive, Turn},
-    dynamics::Dynamics,
-};
+use crate::movement::{controls::Controls, dynamics::Dynamics};
 
 #[derive(Component)]
 pub struct Player;
@@ -26,10 +23,7 @@ pub(crate) fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer
             },
             ..default()
         })
-        .insert(Controls {
-            drive: Drive::Idle,
-            turn: Turn::Idle,
-        })
+        .insert(Controls::default())
         .insert(Dynamics {
             linear_acceleration: 400.0,
             idle_breaking: 350.0,

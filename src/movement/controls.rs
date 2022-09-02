@@ -11,8 +11,20 @@ pub enum Drive {
     Backward,
     Idle,
 }
-#[derive(Component)]
+#[derive(Component, Default)]
 pub struct Controls {
     pub turn: Turn,
     pub drive: Drive,
+}
+
+impl Default for Turn {
+    fn default() -> Self {
+        Turn::Idle
+    }
+}
+
+impl Default for Drive {
+    fn default() -> Self {
+        Drive::Idle
+    }
 }
