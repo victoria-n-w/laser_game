@@ -1,15 +1,13 @@
-use bevy::prelude::Plugin;
-
-use self::dynamics::{controls_to_dynamics, dynamics_to_transform};
+use self::dynamics::{move_entities, process_controls};
 
 pub mod controls;
 pub mod dynamics;
 
-pub struct MovementPlugin;
+pub struct Plugin;
 
-impl Plugin for MovementPlugin {
+/// Initializes the systems neccesery to convert controls signals to movement
+impl bevy::prelude::Plugin for Plugin {
     fn build(&self, app: &mut bevy::prelude::App) {
-        app.add_system(controls_to_dynamics)
-            .add_system(dynamics_to_transform);
+        app.add_system(process_controls).add_system(move_entities);
     }
 }
