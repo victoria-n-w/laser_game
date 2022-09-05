@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 mod camera;
 mod enemies;
+mod math;
 mod movement;
 mod player;
 use camera::camera_system;
