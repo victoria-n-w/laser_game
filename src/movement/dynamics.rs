@@ -71,8 +71,9 @@ pub fn dynamics_to_transform(
     mut object_query: Query<(&Dynamics, &mut Transform)>,
 ) {
     object_query.for_each_mut(|(dynamics, mut transform)| -> () {
-        transform.rotation *=
-            Quat::from_rotation_z(dynamics.current_turning_speed * time.delta_seconds());
+        transform.rotate(Quat::from_rotation_z(
+            dynamics.current_turning_speed * time.delta_seconds(),
+        ));
 
         let delta_position =
             transform.rotation * (Vec3::X * dynamics.current_speed * time.delta_seconds());

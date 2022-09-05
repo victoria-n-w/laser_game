@@ -26,9 +26,9 @@ pub(crate) fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer
         .insert(Controls::default())
         .insert(Dynamics {
             linear_acceleration: 400.0,
-            idle_breaking: 350.0,
-            max_speed: 200.0,
-            min_spped: -200.0,
+            idle_breaking: 50.0,
+            max_speed: 300.0,
+            min_spped: -300.0,
             current_speed: 0.0,
             turning_speed: 5.0,
             current_turning_speed: 0.0,

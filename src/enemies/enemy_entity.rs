@@ -5,6 +5,7 @@ use bevy::prelude::*;
 use crate::movement::controls::{Controls, Drive, Turn};
 use crate::movement::dynamics::Dynamics;
 
+use super::homing::HomingMovement;
 use super::random_moves::RandomMoves;
 
 #[derive(Component)]
@@ -25,7 +26,7 @@ pub fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
         dynamics: Dynamics {
             linear_acceleration: 400.0,
             idle_breaking: 400.0,
-            max_speed: 150.0,
+            max_speed: 100.0,
             min_spped: -150.0,
             current_speed: 0.0,
             turning_speed: 10.0,
@@ -49,8 +50,6 @@ pub fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
             turn: Turn::Idle,
         },
         enemy: Enemy,
-        movement: RandomMoves {
-            timer: Timer::new(Duration::from_secs(5), false),
-        },
+        movement: HomingMovement,
     });
 }

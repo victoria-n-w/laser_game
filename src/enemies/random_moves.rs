@@ -33,7 +33,7 @@ pub fn control_random_moves(
         if moves.timer.finished() {
             controls.turn = rand::random();
             moves.timer = Timer::new(
-                Duration::from_secs_f32(rand::thread_rng().gen_range(0.0..5.0)),
+                Duration::from_secs_f32(rand::thread_rng().gen_range(0.0..2.0)),
                 false,
             )
         }
