@@ -4,7 +4,8 @@ use crate::movement::controls::{Controls, Drive, Turn};
 
 use super::entity::Player;
 
-pub fn player_controls(
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
+pub fn process_keyboard_input(
     keyboard: Res<Input<KeyCode>>,
     mut player_query: Query<(&Player, &mut Controls)>,
 ) {
@@ -16,6 +17,8 @@ pub fn player_controls(
         _ => controls.drive = Drive::Idle,
     }
 
+    // repeating the values allows the match to be written in a clean and readeable way
+    #[allow(clippy::match_same_arms)]
     match (
         keyboard.pressed(KeyCode::A),
         keyboard.pressed(KeyCode::D),

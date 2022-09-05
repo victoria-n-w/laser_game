@@ -20,22 +20,23 @@ impl Distribution<Turn> for Standard {
 }
 
 #[derive(Component)]
-pub struct RandomMoves {
+pub struct RandomControlls {
     pub timer: Timer,
 }
 
-pub fn control_random_moves(
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
+pub fn generate_random_controls(
     time: Res<Time>,
-    mut objects_query: Query<(&mut RandomMoves, &mut Controls)>,
+    mut entities_query: Query<(&mut RandomControlls, &mut Controls)>,
 ) {
-    objects_query.for_each_mut(|(mut moves, mut controls)| -> () {
+    entities_query.for_each_mut(|(mut moves, mut controls)| {
         moves.timer.tick(time.delta());
         if moves.timer.finished() {
             controls.turn = rand::random();
             moves.timer = Timer::new(
                 Duration::from_secs_f32(rand::thread_rng().gen_range(0.0..2.0)),
                 false,
-            )
+            );
         }
-    })
+    });
 }

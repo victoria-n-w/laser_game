@@ -1,12 +1,9 @@
-use std::time::Duration;
-
 use bevy::prelude::*;
 
 use crate::movement::controls::{Controls, Drive, Turn};
 use crate::movement::dynamics::Dynamics;
 
-use super::homing::HomingMovement;
-use super::random_moves::RandomMoves;
+use super::homing::Movement;
 
 #[derive(Component)]
 pub struct Enemy;
@@ -21,6 +18,7 @@ pub struct EnemyBundle<T: Component> {
     movement: T,
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn_bundle(EnemyBundle {
         dynamics: Dynamics {
@@ -50,6 +48,6 @@ pub fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
             turn: Turn::Idle,
         },
         enemy: Enemy,
-        movement: HomingMovement,
+        movement: Movement,
     });
 }

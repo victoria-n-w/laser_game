@@ -5,7 +5,8 @@ use crate::movement::{controls::Controls, dynamics::Dynamics};
 #[derive(Component)]
 pub struct Player;
 
-pub(crate) fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
+pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn()
         .insert(Player)

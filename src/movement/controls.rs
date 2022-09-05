@@ -19,12 +19,12 @@ pub struct Controls {
 
 impl Default for Turn {
     fn default() -> Self {
-        Turn::Idle
+        Self::Idle
     }
 }
 
 impl Default for Drive {
     fn default() -> Self {
-        Drive::Idle
+        Self::Idle
     }
 }
