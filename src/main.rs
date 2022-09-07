@@ -8,16 +8,16 @@
 use bevy::prelude::*;
 
 mod camera;
+mod collisions;
 mod enemies;
 mod math;
 mod movement;
 mod player;
-use camera::camera;
 
 fn main() {
     App::new()
+        .add_plugin(camera::CameraAndWindowPlugin)
         .add_plugins(DefaultPlugins)
-        .add_startup_system(camera)
         .add_plugin(player::Plugin)
         .add_plugin(enemies::RandomEnemiesPlugin)
         .add_plugin(movement::Plugin)
