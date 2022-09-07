@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::movement;
+use crate::{collisions, movement};
 
 #[derive(Component)]
 pub struct Enemy;
@@ -12,6 +12,7 @@ pub struct EnemyBundle<T: Component> {
     sprite: SpriteBundle,
     navigation: T,
     movement: movement::simple_moves::SimpleControls,
+    collisions: collisions::Collideable,
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
@@ -28,5 +29,6 @@ pub fn spawn_enemy<T: Default + Component>(mut commands: Commands, asset_server:
         enemy: Enemy,
         navigation: T::default(),
         movement: movement::simple_moves::SimpleControls::new(150.0, 5.0),
+        collisions: collisions::Collideable,
     });
 }

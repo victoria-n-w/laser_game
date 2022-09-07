@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::movement::{controls::Controls, dynamics::Dynamics};
+use crate::{
+    collisions,
+    movement::{controls::Controls, dynamics::Dynamics},
+};
 
 #[derive(Component)]
 pub struct Player;
@@ -28,5 +31,6 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
             current_speed: 0.0,
             turning_speed: 5.0,
             current_turning_speed: 0.0,
-        });
+        })
+        .insert(collisions::Collideable);
 }
