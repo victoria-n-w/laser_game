@@ -18,14 +18,9 @@ pub struct EnemyBundle<T: Component> {
 pub fn spawn_enemy<T: Default + Component>(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn_bundle(EnemyBundle {
         sprite: SpriteBundle {
-            transform: Transform {
-                translation: default(),
-                rotation: default(),
-                scale: Vec3 {
-                    x: 0.09,
-                    y: 0.09,
-                    z: 1.0,
-                },
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(50.0, 50.0)),
+                ..default()
             },
             texture: asset_server.load("blue.png"),
             ..default()

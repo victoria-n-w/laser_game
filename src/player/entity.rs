@@ -12,16 +12,11 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         .insert(Player)
         .insert(Name::new("Player"))
         .insert_bundle(SpriteBundle {
-            texture: asset_server.load("red.png"),
-            transform: Transform {
-                translation: default(),
-                rotation: default(),
-                scale: Vec3 {
-                    x: 0.03,
-                    y: 0.03,
-                    z: 1.0,
-                },
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(50.0, 50.0)),
+                ..default()
             },
+            texture: asset_server.load("red.png"),
             ..default()
         })
         .insert(Controls::default())
