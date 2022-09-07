@@ -72,7 +72,7 @@ pub fn process_controls(time: Res<Time>, mut entity_query: Query<(&Controls, &mu
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn move_entities(time: Res<Time>, mut entities_query: Query<(&Dynamics, &mut Transform)>) {
+pub fn process_moves(time: Res<Time>, mut entities_query: Query<(&Dynamics, &mut Transform)>) {
     entities_query.for_each_mut(|(dynamics, mut transform)| {
         transform.rotate(Quat::from_rotation_z(
             dynamics.current_turning_speed * time.delta_seconds(),
