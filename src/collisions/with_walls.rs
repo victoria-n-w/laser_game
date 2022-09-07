@@ -1,11 +1,12 @@
 use bevy::prelude::*;
 
-use crate::arena::ArenaSize;
+use crate::arena;
 
 use super::Collideable;
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn collision_system(
-    arena: Res<ArenaSize>,
+    arena: Res<arena::Bounds>,
     mut entities: Query<(&mut Transform, &Collideable)>,
 ) {
     entities.for_each_mut(|(mut transform, _)| {

@@ -4,9 +4,9 @@ fn camera(mut commands: Commands) {
     commands.spawn_bundle(Camera2dBundle::default());
 }
 
-pub struct CameraAndWindowPlugin;
+pub struct RenderPlugin;
 
-impl Plugin for CameraAndWindowPlugin {
+impl Plugin for RenderPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(WindowDescriptor {
             title: "COLOR GAME".to_string(),

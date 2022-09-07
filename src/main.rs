@@ -21,7 +21,7 @@ fn main() {
             x: 800_f32,
             y: 800_f32,
         })
-        .add_plugin(camera::CameraAndWindowPlugin)
+        .add_plugin(camera::RenderPlugin)
         .add_plugins(DefaultPlugins)
         .add_plugin(player::Plugin)
         .add_plugin(enemies::RandomEnemiesPlugin)

@@ -1,5 +1,5 @@
 #[derive(bevy::prelude::Component)]
-pub struct ArenaSize {
+pub struct Bounds {
     pub min_x: f32,
     pub min_y: f32,
     pub max_x: f32,
@@ -8,9 +8,9 @@ pub struct ArenaSize {
     pub height: f32,
 }
 
-impl ArenaSize {
+impl Bounds {
     pub fn new(width: f32, height: f32) -> Self {
-        ArenaSize {
+        Self {
             min_x: -height / 2_f32,
             min_y: -width / 2_f32,
             max_x: height / 2_f32,
@@ -28,6 +28,6 @@ pub struct Plugin {
 
 impl bevy::prelude::Plugin for Plugin {
     fn build(&self, app: &mut bevy::prelude::App) {
-        app.insert_resource(ArenaSize::new(self.y, self.x));
+        app.insert_resource(Bounds::new(self.y, self.x));
     }
 }
