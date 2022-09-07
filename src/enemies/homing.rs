@@ -5,7 +5,6 @@ use crate::{math::FrameChanger, movement::simple_moves::SimpleControls, player::
 #[derive(Component, Default)]
 pub struct Navigation;
 
-#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn move_homing_enemies(
     mut player_query: Query<(&Player, &Transform)>,
     mut enemies_query: Query<(&Navigation, &mut SimpleControls, &Transform), Without<Player>>,

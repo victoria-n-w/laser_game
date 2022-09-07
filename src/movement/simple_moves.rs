@@ -13,7 +13,7 @@ pub struct SimpleControls {
 }
 
 impl SimpleControls {
-    pub fn new(velocity: f32, max_angular_velocity: f32) -> Self {
+    pub const fn new(velocity: f32, max_angular_velocity: f32) -> Self {
         Self {
             velocity,
             max_angular_velocity,
@@ -54,6 +54,7 @@ impl SimpleControls {
     }
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn system(time: Res<Time>, mut entities: Query<(&mut SimpleControls, &mut Transform)>) {
     entities.for_each_mut(|(mut controls, mut transform)| {
         controls.apply_to(&mut transform, time.delta_seconds());
