@@ -1,9 +1,6 @@
 use bevy::prelude::*;
 
-use crate::movement::controls::{Controls, Drive, Turn};
-use crate::movement::dynamics::Dynamics;
-
-use super::homing::Movement;
+use crate::movement;
 
 #[derive(Component)]
 pub struct Enemy;
@@ -11,25 +8,15 @@ pub struct Enemy;
 #[derive(Bundle)]
 pub struct EnemyBundle<T: Component> {
     enemy: Enemy,
-    dynamics: Dynamics,
     #[bundle]
     sprite: SpriteBundle,
-    controls: Controls,
-    movement: T,
+    navigation: T,
+    movement: movement::simple_moves::SimpleControls,
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
+pub fn spawn_enemy<T: Default + Component>(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn_bundle(EnemyBundle {
-        dynamics: Dynamics {
-            linear_acceleration: 400.0,
-            idle_breaking: 400.0,
-            max_speed: 100.0,
-            min_spped: -150.0,
-            current_speed: 0.0,
-            turning_speed: 10.0,
-            current_turning_speed: 0.0,
-        },
         sprite: SpriteBundle {
             transform: Transform {
                 translation: default(),
@@ -43,11 +30,8 @@ pub fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
             texture: asset_server.load("blue.png"),
             ..default()
         },
-        controls: Controls {
-            drive: Drive::Forwards,
-            turn: Turn::Idle,
-        },
         enemy: Enemy,
-        movement: Movement,
+        navigation: T::default(),
+        movement: movement::simple_moves::SimpleControls::new(150.0, 5.0),
     });
 }
