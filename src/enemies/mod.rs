@@ -1,20 +1,24 @@
 use bevy::prelude::Plugin;
 
-use self::{
-    enemy_entity::spawn_enemy, homing::move_homing_enemies, random::generate_random_controls,
-};
-
 mod enemy_entity;
 mod homing;
 mod random;
+mod spawning;
 
-pub struct RandomEnemiesPlugin;
+pub struct RandomPlugin;
 
-impl Plugin for RandomEnemiesPlugin {
+impl Plugin for RandomPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
-        app.add_startup_system(spawn_enemy::<homing::Navigation>)
-            .add_startup_system(spawn_enemy::<random::Navigation>)
-            .add_system(generate_random_controls)
-            .add_system(move_homing_enemies);
+        app.add_plugin(spawning::EggsPlugin::<random::Navigation>::default())
+            .add_system(random::navigation_system);
+    }
+}
+
+pub struct HomingPlugin;
+
+impl Plugin for HomingPlugin {
+    fn build(&self, app: &mut bevy::prelude::App) {
+        app.add_plugin(spawning::EggsPlugin::<homing::Navigation>::default())
+            .add_system(homing::navigation_system);
     }
 }

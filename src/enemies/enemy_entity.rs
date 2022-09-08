@@ -5,8 +5,12 @@ use crate::{collisions, movement};
 #[derive(Component)]
 pub struct Enemy;
 
-#[derive(Bundle)]
-pub struct EnemyBundle<T: Component> {
+pub trait Navigation: Component + Default {
+    fn texture_path() -> String;
+}
+
+#[derive(bevy::prelude::Bundle)]
+pub struct EnemyBundle<T: Navigation> {
     enemy: Enemy,
     #[bundle]
     sprite: SpriteBundle,
@@ -15,20 +19,26 @@ pub struct EnemyBundle<T: Component> {
     collisions: collisions::Collideable,
 }
 
-#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn spawn_enemy<T: Default + Component>(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn_bundle(EnemyBundle {
-        sprite: SpriteBundle {
-            sprite: Sprite {
-                custom_size: Some(Vec2::new(50.0, 50.0)),
+impl<T: Navigation> EnemyBundle<T> {
+    pub fn new(x: f32, y: f32, asset_server: &Res<AssetServer>) -> Self {
+        EnemyBundle {
+            enemy: Enemy,
+            sprite: SpriteBundle {
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(50.0, 50.0)),
+                    ..default()
+                },
+                texture: asset_server.load(&T::texture_path()),
+                transform: Transform {
+                    translation: Vec3::new(x, y, 0_f32),
+                    rotation: Quat::default(),
+                    scale: Vec3::new(1_f32, 1_f32, 1_f32),
+                },
                 ..default()
             },
-            texture: asset_server.load("blue.png"),
-            ..default()
-        },
-        enemy: Enemy,
-        navigation: T::default(),
-        movement: movement::simple_moves::SimpleControls::new(150.0, 5.0),
-        collisions: collisions::Collideable,
-    });
+            navigation: T::default(),
+            movement: movement::simple_moves::SimpleControls::new(150.0, 5.0),
+            collisions: collisions::Collideable,
+        }
+    }
 }

@@ -2,10 +2,18 @@ use bevy::prelude::*;
 
 use crate::{math::FrameChanger, movement::simple_moves::SimpleControls, player::entity::Player};
 
+use super::enemy_entity;
+
 #[derive(Component, Default)]
 pub struct Navigation;
 
-pub fn move_homing_enemies(
+impl enemy_entity::Navigation for Navigation {
+    fn texture_path() -> String {
+        String::from("blue.png")
+    }
+}
+
+pub fn navigation_system(
     mut player_query: Query<(&Player, &Transform)>,
     mut enemies_query: Query<(&Navigation, &mut SimpleControls, &Transform), Without<Player>>,
 ) {
