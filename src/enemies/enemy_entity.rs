@@ -21,7 +21,7 @@ pub struct EnemyBundle<T: Navigation> {
 
 impl<T: Navigation> EnemyBundle<T> {
     pub fn new(x: f32, y: f32, asset_server: &Res<AssetServer>) -> Self {
-        EnemyBundle {
+        Self {
             enemy: Enemy,
             sprite: SpriteBundle {
                 sprite: Sprite {

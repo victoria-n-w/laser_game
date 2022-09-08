@@ -22,7 +22,7 @@ pub struct EggBundle<T: enemy_entity::Navigation> {
 
 impl<T: enemy_entity::Navigation> EggBundle<T> {
     pub fn new(x: f32, y: f32, incubation_time: f32, asset_server: &Res<AssetServer>) -> Self {
-        EggBundle::<T> {
+        Self {
             egg: Egg::<T> {
                 timer: Timer::from_seconds(incubation_time, false),
                 phantom: PhantomData,
@@ -52,6 +52,7 @@ pub struct SpawnParametersFor<T: enemy_entity::Navigation> {
     phantom: PhantomData<T>,
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 fn spawning_eggs<T: enemy_entity::Navigation>(
     mut commands: Commands,
     time: Res<Time>,
@@ -79,6 +80,7 @@ fn spawning_eggs<T: enemy_entity::Navigation>(
     }
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 fn hatchin_eggs<T: enemy_entity::Navigation>(
     mut commands: Commands,
     time: Res<Time>,
