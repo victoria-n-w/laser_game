@@ -6,13 +6,21 @@ use crate::movement::simple_moves::SimpleControls;
 
 use rand::Rng;
 
+use super::enemy_entity;
+
 #[derive(Component, Default)]
 pub struct Navigation {
     pub timer: Timer,
 }
 
+impl enemy_entity::Navigation for Navigation {
+    fn texture_path() -> String {
+        String::from("green.png")
+    }
+}
+
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn generate_random_controls(
+pub fn navigation_system(
     time: Res<Time>,
     mut entities_query: Query<(&mut Navigation, &mut SimpleControls)>,
 ) {

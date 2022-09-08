@@ -24,7 +24,8 @@ fn main() {
         .add_plugin(camera::RenderPlugin)
         .add_plugins(DefaultPlugins)
         .add_plugin(player::Plugin)
-        .add_plugin(enemies::RandomEnemiesPlugin)
+        .add_plugin(enemies::RandomPlugin)
+        .add_plugin(enemies::HomingPlugin)
         .add_plugin(collisions::Plugin)
         .add_plugin(movement::Plugin)
         .run();
