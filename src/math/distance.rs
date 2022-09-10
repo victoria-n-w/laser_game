@@ -12,6 +12,6 @@ impl Metric for Manhatann {
         let y_d = (x.y - y.y).abs();
         let z_d = (x.z - y.z).abs();
 
-        f32::min(x_d, f32::min(y_d, z_d))
+        x_d + y_d + z_d
     }
 }

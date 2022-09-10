@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    collisions,
+    collisions, common,
     movement::{controls::Controls, dynamics::Dynamics},
 };
 
@@ -35,5 +35,6 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
             current_turning_speed: 0.0,
         })
         .insert(collisions::Collideable)
-        .insert(attack::Attacking::new(3_f32, 1_f32));
+        .insert(attack::Attacking::new(3_f32, 1_f32))
+        .insert(common::size::Size { radius: 50.0 });
 }
