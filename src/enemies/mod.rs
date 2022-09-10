@@ -1,6 +1,6 @@
 use bevy::prelude::Plugin;
 
-mod enemy_entity;
+pub mod entity;
 mod homing;
 mod random;
 mod spawning;

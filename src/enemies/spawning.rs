@@ -5,22 +5,22 @@ use rand::Rng;
 
 use crate::arena;
 
-use super::enemy_entity;
+use super::entity;
 
 #[derive(Component)]
-struct Egg<T: enemy_entity::Navigation> {
+struct Egg<T: entity::Navigation> {
     timer: Timer,
     phantom: PhantomData<T>,
 }
 
 #[derive(Bundle)]
-pub struct EggBundle<T: enemy_entity::Navigation> {
+pub struct EggBundle<T: entity::Navigation> {
     #[bundle]
     sprite_bundle: SpriteBundle,
     egg: Egg<T>,
 }
 
-impl<T: enemy_entity::Navigation> EggBundle<T> {
+impl<T: entity::Navigation> EggBundle<T> {
     pub fn new(x: f32, y: f32, incubation_time: f32, asset_server: &Res<AssetServer>) -> Self {
         Self {
             egg: Egg::<T> {
@@ -45,7 +45,7 @@ impl<T: enemy_entity::Navigation> EggBundle<T> {
 }
 
 #[derive(Component)]
-pub struct SpawnParametersFor<T: enemy_entity::Navigation> {
+pub struct SpawnParametersFor<T: entity::Navigation> {
     max_n: usize,
     timer: Timer,
     incubation_time: f32,
@@ -53,13 +53,13 @@ pub struct SpawnParametersFor<T: enemy_entity::Navigation> {
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-fn spawning_eggs<T: enemy_entity::Navigation>(
+fn spawning_eggs<T: entity::Navigation>(
     mut commands: Commands,
     time: Res<Time>,
     asset_server: Res<AssetServer>,
     arena_size: Res<arena::Bounds>,
     mut spawn_params: ResMut<SpawnParametersFor<T>>,
-    enemies: Query<(&enemy_entity::Enemy, &T)>,
+    enemies: Query<(&entity::Enemy, &T)>,
 ) {
     spawn_params.timer.tick(time.delta());
 
@@ -81,7 +81,7 @@ fn spawning_eggs<T: enemy_entity::Navigation>(
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-fn hatchin_eggs<T: enemy_entity::Navigation>(
+fn hatchin_eggs<T: entity::Navigation>(
     mut commands: Commands,
     time: Res<Time>,
     asset_server: Res<AssetServer>,
@@ -92,7 +92,7 @@ fn hatchin_eggs<T: enemy_entity::Navigation>(
 
         if egg.timer.finished() {
             commands.entity(id).despawn_recursive();
-            commands.spawn_bundle(enemy_entity::EnemyBundle::<T>::new(
+            commands.spawn_bundle(entity::EnemyBundle::<T>::new(
                 transform.translation.x,
                 transform.translation.y,
                 &asset_server,
@@ -102,11 +102,11 @@ fn hatchin_eggs<T: enemy_entity::Navigation>(
 }
 
 #[derive(Default)]
-pub struct EggsPlugin<T: enemy_entity::Navigation> {
+pub struct EggsPlugin<T: entity::Navigation> {
     phantom: PhantomData<T>,
 }
 
-impl<T: enemy_entity::Navigation> Plugin for EggsPlugin<T> {
+impl<T: entity::Navigation> Plugin for EggsPlugin<T> {
     fn build(&self, app: &mut App) {
         app.insert_resource(SpawnParametersFor::<T> {
             max_n: 10,
