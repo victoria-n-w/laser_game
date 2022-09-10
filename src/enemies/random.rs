@@ -6,14 +6,14 @@ use crate::movement::simple_moves::SimpleControls;
 
 use rand::Rng;
 
-use super::enemy_entity;
+use super::entity;
 
 #[derive(Component, Default)]
 pub struct Navigation {
     pub timer: Timer,
 }
 
-impl enemy_entity::Navigation for Navigation {
+impl entity::Navigation for Navigation {
     fn texture_path() -> String {
         String::from("green.png")
     }

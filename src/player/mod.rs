@@ -1,3 +1,4 @@
+pub mod attack;
 mod controls;
 pub mod entity;
 
@@ -10,6 +11,7 @@ pub struct Plugin;
 impl bevy::prelude::Plugin for Plugin {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_startup_system(spawn_player)
-            .add_system(process_keyboard_input);
+            .add_system(process_keyboard_input)
+            .add_system(attack::system);
     }
 }
