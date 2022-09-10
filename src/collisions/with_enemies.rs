@@ -7,6 +7,7 @@ pub struct Collision {
 
 use crate::{common, enemies, math, player};
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn collisions<M: math::distance::Metric>(
     mut events: EventWriter<Collision>,
     player_state: Query<
@@ -33,6 +34,7 @@ pub fn collisions<M: math::distance::Metric>(
     });
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn on_collision(
     mut events: EventReader<Collision>,
     player_state: Query<

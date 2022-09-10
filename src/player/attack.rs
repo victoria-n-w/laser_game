@@ -22,7 +22,7 @@ pub struct Attacking {
 
 impl Attacking {
     pub fn new(cooldown: f32, duration: f32) -> Self {
-        Attacking {
+        Self {
             cooldown_time: cooldown,
             duration_time: duration,
             ..default()
@@ -35,7 +35,7 @@ impl Attacking {
             State::OnCooldown(timer) => {
                 if timer.finished() {
                     self.state = State::Active(Timer::from_seconds(self.duration_time, false));
-                    println!("ATTACKING!!!")
+                    println!("ATTACKING!!!");
                 };
             }
             State::Active(_) => (),
@@ -56,7 +56,7 @@ impl Attacking {
         };
     }
 
-    pub fn is_active(&self) -> bool {
+    pub const fn is_active(&self) -> bool {
         match self.state {
             State::OnCooldown(_) => false,
             State::Active(_) => true,
