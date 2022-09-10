@@ -2,14 +2,14 @@ use bevy::prelude::*;
 
 use crate::movement::controls::{Controls, Drive, Turn};
 
-use super::entity::Player;
+use super::{attack, entity::Player};
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn process_keyboard_input(
     keyboard: Res<Input<KeyCode>>,
-    mut player_query: Query<(&Player, &mut Controls)>,
+    mut player_query: Query<(&Player, &mut Controls, &mut attack::Attacking)>,
 ) {
-    let (_, mut controls) = player_query.single_mut();
+    let (_, mut controls, mut attacking) = player_query.single_mut();
 
     match (keyboard.pressed(KeyCode::W), keyboard.pressed(KeyCode::S)) {
         (true, false) => controls.drive = Drive::Forwards,
@@ -30,4 +30,8 @@ pub fn process_keyboard_input(
         (false, true, _) => controls.turn = Turn::Clockwise,
         _ => controls.turn = Turn::Idle,
     }
+
+    if keyboard.pressed(KeyCode::Return) {
+        attacking.trigger();
+    };
 }

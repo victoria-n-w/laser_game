@@ -10,6 +10,7 @@ use bevy::prelude::*;
 mod arena;
 mod camera;
 mod collisions;
+mod common;
 mod enemies;
 mod math;
 mod movement;
