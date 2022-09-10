@@ -36,5 +36,5 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         })
         .insert(collisions::Collideable)
         .insert(attack::Attacking::new(3_f32, 1_f32))
-        .insert(common::size::Size { radius: 50.0 });
+        .insert(common::size::Size { radius: 25.0 });
 }
