@@ -36,7 +36,8 @@ pub fn collisions<M: math::distance::Metric>(
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn on_collision(
-    mut events: EventReader<Collision>,
+    mut commands: Commands,
+    mut collisions: EventReader<Collision>,
     player_state: Query<
         &player::attack::Attacking,
         (
@@ -49,12 +50,11 @@ pub fn on_collision(
         .get_single()
         .expect("Could not get a single player");
 
-    // mock for testing only
-    for ev in events.iter() {
-        println!(
-            "Collision with: {} while: {}",
-            ev.with.id(),
-            attacking.is_active()
-        );
+    for collision in collisions.iter() {
+        if attacking.is_active() {
+            commands.entity(collision.with).despawn_recursive();
+        } else {
+            println!("COLLISION - YOU LOOSE HEALTH (to be implemented)");
+        };
     }
 }
