@@ -29,7 +29,7 @@ fn main() {
         .add_plugin(player::Plugin)
         .add_plugin(enemies::RandomPlugin)
         .add_plugin(enemies::HomingPlugin)
-        .add_plugin(collisions::Plugin)
+        .add_plugin(collisions::CollisionsPlugin)
         .add_plugin(movement::Plugin)
         .add_system(animation::animate_sprites)
         .run();
