@@ -7,6 +7,7 @@ use super::{attack, entity};
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn process_keyboard_input(
     keyboard: Res<Input<KeyCode>>,
+    mut attack_events: EventWriter<attack::Started>,
     mut player_query: Query<(&mut Controls, &mut attack::Attacking), With<entity::Player>>,
 ) {
     let (mut controls, mut attacking) = player_query.single_mut();
@@ -32,6 +33,8 @@ pub fn process_keyboard_input(
     }
 
     if keyboard.pressed(KeyCode::Return) {
-        attacking.trigger();
+        if attacking.trigger() {
+            attack_events.send_default();
+        };
     };
 }
