@@ -32,9 +32,7 @@ pub fn process_keyboard_input(
         _ => controls.turn = Turn::Idle,
     }
 
-    if keyboard.pressed(KeyCode::Return) {
-        if attacking.trigger() {
-            attack_events.send_default();
-        };
+    if keyboard.pressed(KeyCode::Return) && attacking.trigger() {
+        attack_events.send_default();
     };
 }

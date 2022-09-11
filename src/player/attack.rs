@@ -96,11 +96,12 @@ pub fn system(
     });
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn animate_start(
     events: EventReader<Started>,
     mut fire: Query<&mut Visibility, With<entity::Fire>>,
 ) {
-    if events.len() > 0 {
+    if !events.is_empty() {
         let mut visible = fire
             .get_single_mut()
             .expect("Could not get a single player");
@@ -109,11 +110,12 @@ pub fn animate_start(
     }
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn animate_end(
     events: EventReader<Finished>,
     mut fire: Query<&mut Visibility, With<entity::Fire>>,
 ) {
-    if events.len() > 0 {
+    if !events.is_empty() {
         let mut visible = fire
             .get_single_mut()
             .expect("Could not get a single player");
