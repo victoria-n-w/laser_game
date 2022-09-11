@@ -12,6 +12,10 @@ impl bevy::prelude::Plugin for Plugin {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_startup_system(spawn_player)
             .add_system(process_keyboard_input)
-            .add_system(attack::system);
+            .add_event::<attack::Started>()
+            .add_event::<attack::Finished>()
+            .add_system(attack::system)
+            .add_system(attack::animate_start)
+            .add_system(attack::animate_end);
     }
 }
