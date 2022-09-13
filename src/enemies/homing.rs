@@ -17,7 +17,7 @@ impl entity::Navigation for Navigation {
     }
 }
 
-pub fn navigation_system(
+pub fn navigation(
     mut player_query: Query<&Transform, With<player::entity::Player>>,
     mut enemies_query: Query<
         (&mut SimpleControls, &Transform),

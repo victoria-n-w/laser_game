@@ -20,7 +20,7 @@ impl entity::Navigation for Navigation {
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn navigation_system(
+pub fn navigation(
     time: Res<Time>,
     mut entities_query: Query<(&mut Navigation, &mut SimpleControls)>,
 ) {

@@ -94,7 +94,7 @@ impl FireBundle {
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn spawn_player(
+pub fn spawn(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
@@ -109,3 +109,5 @@ pub fn spawn_player(
 
     commands.entity(player).add_child(fire);
 }
+
+pub fn despawn() {}

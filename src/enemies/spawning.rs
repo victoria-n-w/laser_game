@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 use bevy::{prelude::*, sprite::Sprite, time::Time};
 use rand::Rng;
 
-use crate::arena;
+use crate::{arena, AppState};
 
 use super::entity;
 
@@ -100,6 +100,7 @@ fn hatchin_eggs<T: entity::Navigation>(
         };
     });
 }
+pub fn cleanup() {}
 
 #[derive(Default)]
 pub struct EggsPlugin<T: entity::Navigation> {
@@ -114,7 +115,11 @@ impl<T: entity::Navigation> Plugin for EggsPlugin<T> {
             incubation_time: 4_f32,
             phantom: PhantomData,
         })
-        .add_system(spawning_eggs::<T>)
-        .add_system(hatchin_eggs::<T>);
+        .add_system_set(SystemSet::on_exit(AppState::Game).with_system(cleanup))
+        .add_system_set(
+            SystemSet::on_update(AppState::Game)
+                .with_system(spawning_eggs::<T>)
+                .with_system(hatchin_eggs::<T>),
+        );
     }
 }

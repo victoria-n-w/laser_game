@@ -18,8 +18,15 @@ mod math;
 mod movement;
 mod player;
 
+#[derive(Eq, PartialEq, Clone, Hash, Debug)]
+enum AppState {
+    Title,
+    Game,
+    GameOver,
+}
 fn main() {
     App::new()
+        .add_state(AppState::Game)
         .add_plugin(arena::Plugin {
             x: 800_f32,
             y: 800_f32,
