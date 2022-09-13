@@ -110,4 +110,7 @@ pub fn spawn(
     commands.entity(player).add_child(fire);
 }
 
-pub fn despawn() {}
+pub fn despawn(mut commands: Commands, player: Query<Entity, With<Player>>) {
+    let id = player.get_single().expect("Could not get a single player");
+    commands.entity(id).despawn_recursive();
+}

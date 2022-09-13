@@ -52,6 +52,10 @@ pub struct SpawnParametersFor<T: entity::Navigation> {
     phantom: PhantomData<T>,
 }
 
+pub fn setup<T: entity::Navigation>(mut spawn_params: ResMut<SpawnParametersFor<T>>) {
+    spawn_params.timer.reset();
+}
+
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 fn spawning_eggs<T: entity::Navigation>(
     mut commands: Commands,
@@ -59,13 +63,11 @@ fn spawning_eggs<T: entity::Navigation>(
     asset_server: Res<AssetServer>,
     arena_size: Res<arena::Bounds>,
     mut spawn_params: ResMut<SpawnParametersFor<T>>,
-    enemies: Query<(&entity::Enemy, &T)>,
+    enemies: Query<&entity::Enemy, With<T>>,
 ) {
     spawn_params.timer.tick(time.delta());
 
     if spawn_params.timer.finished() && enemies.into_iter().len() < spawn_params.max_n {
-        spawn_params.max_n += 1;
-
         let mut rng = rand::thread_rng();
 
         let x = rng.gen_range(arena_size.min_x..arena_size.max_x);
@@ -100,7 +102,12 @@ fn hatchin_eggs<T: entity::Navigation>(
         };
     });
 }
-pub fn cleanup() {}
+
+pub fn cleanup<T: entity::Navigation>(mut commands: Commands, enemies: Query<Entity, With<T>>) {
+    enemies.for_each(|id| {
+        commands.entity(id).despawn_recursive();
+    });
+}
 
 #[derive(Default)]
 pub struct EggsPlugin<T: entity::Navigation> {
@@ -115,7 +122,8 @@ impl<T: entity::Navigation> Plugin for EggsPlugin<T> {
             incubation_time: 4_f32,
             phantom: PhantomData,
         })
-        .add_system_set(SystemSet::on_exit(AppState::Game).with_system(cleanup))
+        .add_system_set(SystemSet::on_enter(AppState::Game).with_system(setup::<T>))
+        .add_system_set(SystemSet::on_exit(AppState::Game).with_system(cleanup::<T>))
         .add_system_set(
             SystemSet::on_update(AppState::Game)
                 .with_system(spawning_eggs::<T>)
