@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{animation, collisions, common, movement};
+use crate::{animation, collisions, movement, util};
 
 use super::attack;
 
@@ -17,7 +17,7 @@ pub struct PlayerBundle {
     dynamics: movement::dynamics::Dynamics,
     collisions: collisions::Collideable,
     attacking: attack::Attacking,
-    size: common::size::Size,
+    size: util::size::Size,
 }
 
 impl PlayerBundle {
@@ -41,7 +41,7 @@ impl PlayerBundle {
             collisions: collisions::Collideable,
             controls: movement::controls::Controls::default(),
             attacking: attack::Attacking::new(3_f32, 1_f32),
-            size: common::size::Size { radius: 25.0 },
+            size: util::size::Size { radius: 25.0 },
             dynamics: movement::dynamics::Dynamics {
                 linear_acceleration: 400.0,
                 idle_breaking: 50.0,

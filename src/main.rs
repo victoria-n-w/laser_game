@@ -12,25 +12,22 @@ mod animation;
 mod arena;
 mod camera;
 mod collisions;
-mod common;
 mod enemies;
 mod math;
 mod movement;
 mod player;
+mod screens;
+mod states;
+mod util;
 
-#[derive(Eq, PartialEq, Clone, Hash, Debug)]
-enum AppState {
-    Title,
-    Game,
-    GameOver,
-}
 fn main() {
     App::new()
-        .add_state(AppState::Game)
+        .add_state(states::AppState::Game)
         .add_plugin(arena::Plugin {
             x: 800_f32,
             y: 800_f32,
         })
+        .add_plugin(states::StatesPlugin)
         .add_plugin(camera::RenderPlugin)
         .add_plugins(DefaultPlugins)
         .add_plugin(player::Plugin)

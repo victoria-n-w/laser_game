@@ -4,7 +4,7 @@ pub mod entity;
 
 use bevy::prelude::SystemSet;
 
-use crate::AppState;
+use crate::states::AppState;
 
 use self::controls::process_keyboard_input;
 use self::entity::spawn;

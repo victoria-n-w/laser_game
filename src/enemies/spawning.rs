@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 use bevy::{prelude::*, sprite::Sprite, time::Time};
 use rand::Rng;
 
-use crate::{arena, AppState};
+use crate::{arena, states};
 
 use super::entity;
 
@@ -122,10 +122,10 @@ impl<T: entity::Navigation> Plugin for EggsPlugin<T> {
             incubation_time: 4_f32,
             phantom: PhantomData,
         })
-        .add_system_set(SystemSet::on_enter(AppState::Game).with_system(setup::<T>))
-        .add_system_set(SystemSet::on_exit(AppState::Game).with_system(cleanup::<T>))
+        .add_system_set(SystemSet::on_enter(states::AppState::Game).with_system(setup::<T>))
+        .add_system_set(SystemSet::on_exit(states::AppState::Game).with_system(cleanup::<T>))
         .add_system_set(
-            SystemSet::on_update(AppState::Game)
+            SystemSet::on_update(states::AppState::Game)
                 .with_system(spawning_eggs::<T>)
                 .with_system(hatchin_eggs::<T>),
         );

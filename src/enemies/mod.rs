@@ -1,6 +1,6 @@
 use bevy::prelude::{Plugin, SystemSet};
 
-use crate::AppState;
+use crate::states::AppState;
 
 pub mod entity;
 mod homing;

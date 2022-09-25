@@ -1,6 +1,6 @@
 use bevy::prelude::SystemSet;
 
-use crate::AppState;
+use crate::states::AppState;
 
 pub mod controls;
 pub mod dynamics;
