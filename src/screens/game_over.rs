@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use super::text_effects;
 
-pub fn setup(mut commands: Commands) {
+pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn_bundle(
             TextBundle::from_section(
@@ -11,7 +11,7 @@ pub fn setup(mut commands: Commands) {
                 TextStyle {
                     font_size: 100.0,
                     color: Color::WHITE,
-                    ..Default::default()
+                    font: asset_server.load("fonts/InterVariable.ttf"),
                 },
             ) // Set the alignment of the Text
             .with_text_alignment(TextAlignment::TOP_CENTER)

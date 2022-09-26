@@ -22,13 +22,14 @@ mod util;
 
 fn main() {
     App::new()
-        .add_state(states::AppState::Game)
+        .add_state(states::AppState::GameOver)
         .add_plugin(arena::Plugin {
             x: 800_f32,
             y: 800_f32,
         })
         .add_plugin(states::StatesPlugin)
         .add_plugin(camera::RenderPlugin)
+        .add_plugin(screens::Plugin)
         .add_plugins(DefaultPlugins)
         .add_plugin(player::Plugin)
         .add_plugin(enemies::RandomPlugin)
