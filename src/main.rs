@@ -37,6 +37,7 @@ fn main() {
         .add_plugin(enemies::HomingPlugin)
         .add_plugin(collisions::CollisionsPlugin)
         .add_plugin(movement::Plugin)
+        .add_plugin(trackers::TrackersPlugin)
         .add_system(animation::animate_sprites)
         .run();
 }
