@@ -18,6 +18,7 @@ mod movement;
 mod player;
 mod screens;
 mod states;
+mod trackers;
 mod util;
 
 fn main() {
