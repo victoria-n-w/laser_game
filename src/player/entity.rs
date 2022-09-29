@@ -22,7 +22,7 @@ pub struct PlayerBundle {
 
 impl PlayerBundle {
     pub fn new(x: f32, y: f32, rotation: f32, asset_server: &Res<AssetServer>) -> Self {
-        PlayerBundle {
+        Self {
             player: Player,
             name: Name::new("PLAYER"),
             sprite: SpriteBundle {
@@ -68,7 +68,7 @@ struct FireBundle {
 
 impl FireBundle {
     pub fn new(
-        fps: i32,
+        fps: f32,
         asset_server: &Res<AssetServer>,
         texture_atlases: &mut ResMut<Assets<TextureAtlas>>,
     ) -> Self {
@@ -76,7 +76,7 @@ impl FireBundle {
         let texture_atlas = TextureAtlas::from_grid(texture_handle, Vec2::new(64.0, 64.0), 30, 1);
         let texture_atlas_handle = texture_atlases.add(texture_atlas);
 
-        FireBundle {
+        Self {
             sprite: SpriteSheetBundle {
                 texture_atlas: texture_atlas_handle,
                 transform: Transform {
@@ -87,7 +87,7 @@ impl FireBundle {
                 visibility: Visibility { is_visible: false },
                 ..default()
             },
-            animation: animation::Repeating(Timer::from_seconds(1_f32 / fps as f32, true)),
+            animation: animation::Repeating(Timer::from_seconds(1_f32 / fps, true)),
             fire: Fire,
         }
     }
@@ -104,7 +104,7 @@ pub fn spawn(
         .id();
 
     let fire = commands
-        .spawn_bundle(FireBundle::new(30, &asset_server, &mut texture_atlases))
+        .spawn_bundle(FireBundle::new(30.0, &asset_server, &mut texture_atlases))
         .id();
 
     commands.entity(player).add_child(fire);

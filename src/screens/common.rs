@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::states;
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn any_key_next_screen(
     mut keys: ResMut<Input<KeyCode>>,
     state: Res<State<states::AppState>>,

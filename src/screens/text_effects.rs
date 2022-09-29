@@ -3,8 +3,10 @@ use bevy::prelude::*;
 #[derive(Component, Debug)]
 pub struct ChangingColors;
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn color(time: Res<Time>, mut query: Query<&mut Text, With<ChangingColors>>) {
     for mut text in &mut query {
+        #[allow(clippy::cast_possible_truncation)] // casting floats is more or less fine in rust
         let seconds = time.seconds_since_startup() as f32;
 
         // Update the color of the first and only section.

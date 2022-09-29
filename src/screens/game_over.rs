@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use super::text_effects;
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn_bundle(

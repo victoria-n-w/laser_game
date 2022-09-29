@@ -10,7 +10,7 @@ pub enum AppState {
 }
 
 impl AppState {
-    pub fn next(&self) -> Self {
+    pub const fn next(&self) -> Self {
         match self {
             Self::Title => Self::Game,
             Self::Game => Self::GameOver,
@@ -30,13 +30,13 @@ pub fn transitioning(
     mut commands: Commands,
 ) {
     for into in event.iter() {
-        match state.replace(into.state.clone()) {
-            Ok(_) => commands.add(util::commands::DespawnAll),
-            Err(_) => (),
+        if state.replace(into.state.clone()).is_ok() {
+            commands.add(util::commands::DespawnAll);
         };
     }
 }
 
+#[allow(clippy::module_name_repetitions)] // it's used only once and other name would be ambigous
 pub struct StatesPlugin;
 
 impl Plugin for StatesPlugin {
