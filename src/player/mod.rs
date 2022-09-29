@@ -17,7 +17,6 @@ impl bevy::prelude::Plugin for Plugin {
         app.add_event::<attack::Started>()
             .add_event::<attack::Finished>()
             .add_system_set(SystemSet::on_enter(AppState::Game).with_system(spawn))
-            .add_system_set(SystemSet::on_exit(AppState::Game).with_system(entity::despawn))
             .add_system_set(
                 SystemSet::on_update(AppState::Game)
                     .with_system(process_keyboard_input)

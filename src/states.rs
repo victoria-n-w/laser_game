@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::util;
+
 #[derive(Eq, PartialEq, Clone, Hash, Debug)]
 pub enum AppState {
     Title,
@@ -21,9 +23,17 @@ pub struct TransitionInto {
     pub state: AppState,
 }
 
-fn system(mut event: EventReader<TransitionInto>, mut state: ResMut<State<AppState>>) {
+/// automatically despawns all entities with Persistent component
+fn system(
+    mut event: EventReader<TransitionInto>,
+    mut state: ResMut<State<AppState>>,
+    mut commands: Commands,
+) {
     for into in event.iter() {
-        let _ = state.replace(into.state.clone());
+        match state.replace(into.state.clone()) {
+            Ok(_) => commands.add(util::commands::DespawnAll),
+            Err(_) => (),
+        };
     }
 }
 

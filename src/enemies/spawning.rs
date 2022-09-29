@@ -103,12 +103,6 @@ fn hatchin_eggs<T: entity::Navigation>(
     });
 }
 
-pub fn cleanup<T: entity::Navigation>(mut commands: Commands, enemies: Query<Entity, With<T>>) {
-    enemies.for_each(|id| {
-        commands.entity(id).despawn_recursive();
-    });
-}
-
 #[derive(Default)]
 pub struct EggsPlugin<T: entity::Navigation> {
     phantom: PhantomData<T>,
@@ -123,7 +117,6 @@ impl<T: entity::Navigation> Plugin for EggsPlugin<T> {
             phantom: PhantomData,
         })
         .add_system_set(SystemSet::on_enter(states::AppState::Game).with_system(setup::<T>))
-        .add_system_set(SystemSet::on_exit(states::AppState::Game).with_system(cleanup::<T>))
         .add_system_set(
             SystemSet::on_update(states::AppState::Game)
                 .with_system(spawning_eggs::<T>)
