@@ -24,7 +24,7 @@ pub struct TransitionInto {
 }
 
 /// automatically despawns all entities with Persistent component
-fn system(
+pub fn transitioning(
     mut event: EventReader<TransitionInto>,
     mut state: ResMut<State<AppState>>,
     mut commands: Commands,
@@ -41,6 +41,6 @@ pub struct StatesPlugin;
 
 impl Plugin for StatesPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<TransitionInto>().add_system(system);
+        app.add_event::<TransitionInto>().add_system(transitioning);
     }
 }

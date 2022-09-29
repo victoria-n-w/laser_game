@@ -1,4 +1,4 @@
-use bevy::prelude::SystemSet;
+use bevy::prelude::{ParallelSystemDescriptorCoercion, SystemSet};
 
 use crate::states;
 
@@ -15,7 +15,7 @@ impl bevy::prelude::Plugin for Plugin {
             .add_system_set(
                 SystemSet::on_update(states::AppState::Title)
                     .with_system(text_effects::color)
-                    .with_system(common::any_key_next_screen),
+                    .with_system(common::any_key_next_screen.before(states::transitioning)),
             )
             .add_system_set(
                 SystemSet::on_enter(states::AppState::GameOver).with_system(game_over::setup),
@@ -23,7 +23,7 @@ impl bevy::prelude::Plugin for Plugin {
             .add_system_set(
                 SystemSet::on_update(states::AppState::GameOver)
                     .with_system(text_effects::color)
-                    .with_system(common::any_key_next_screen),
+                    .with_system(common::any_key_next_screen.before(states::transitioning)),
             );
     }
 }

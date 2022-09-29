@@ -5,7 +5,7 @@ pub struct Collision {
     pub with: Entity,
 }
 
-use crate::{enemies, math, player, util};
+use crate::{enemies, math, player, states, util};
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn collisions<M: math::distance::Metric>(
@@ -35,6 +35,7 @@ pub fn collisions<M: math::distance::Metric>(
 pub fn on_collision(
     mut commands: Commands,
     mut collisions: EventReader<Collision>,
+    mut publisher: EventWriter<states::TransitionInto>,
     player_state: Query<
         &player::attack::Attacking,
         (
@@ -52,6 +53,9 @@ pub fn on_collision(
             commands.entity(collision.with).despawn_recursive();
         } else {
             println!("COLLISION - YOU LOOSE HEALTH (to be implemented)");
+            publisher.send(states::TransitionInto {
+                state: states::AppState::GameOver,
+            });
         };
     }
 }
