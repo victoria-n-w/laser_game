@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{collisions, common, movement};
+use crate::{collisions, movement, util};
 
 #[derive(Component)]
 pub struct Enemy;
@@ -17,7 +17,7 @@ pub struct EnemyBundle<T: Navigation> {
     navigation: T,
     movement: movement::simple_moves::SimpleControls,
     collisions: collisions::Collideable,
-    size: common::size::Size,
+    size: util::size::Size,
 }
 
 impl<T: Navigation> EnemyBundle<T> {
@@ -40,7 +40,7 @@ impl<T: Navigation> EnemyBundle<T> {
             navigation: T::default(),
             movement: movement::simple_moves::SimpleControls::new(150.0, 5.0),
             collisions: collisions::Collideable,
-            size: common::size::Size { radius: 25_f32 },
+            size: util::size::Size { radius: 25_f32 },
         }
     }
 }
