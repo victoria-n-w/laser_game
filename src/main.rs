@@ -22,7 +22,7 @@ mod util;
 
 fn main() {
     App::new()
-        .add_state(states::AppState::GameOver)
+        .add_state(states::AppState::Title)
         .add_plugin(arena::Plugin {
             x: 800_f32,
             y: 800_f32,

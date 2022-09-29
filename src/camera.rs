@@ -1,7 +1,11 @@
 use bevy::prelude::*;
 
+use crate::util;
+
 fn camera(mut commands: Commands) {
-    commands.spawn_bundle(Camera2dBundle::default());
+    commands
+        .spawn_bundle(Camera2dBundle::default())
+        .insert(util::commands::Persisent); // do not despawn camera on cleanup
 }
 
 pub struct RenderPlugin;

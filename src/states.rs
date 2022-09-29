@@ -7,9 +7,18 @@ pub enum AppState {
     GameOver,
 }
 
-#[derive(Component)]
+impl AppState {
+    pub fn next(&self) -> Self {
+        match self {
+            Self::Title => Self::Game,
+            Self::Game => Self::GameOver,
+            Self::GameOver => Self::Title,
+        }
+    }
+}
+
 pub struct TransitionInto {
-    state: AppState,
+    pub state: AppState,
 }
 
 fn system(mut event: EventReader<TransitionInto>, mut state: ResMut<State<AppState>>) {
