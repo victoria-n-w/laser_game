@@ -1,34 +1,18 @@
 use bevy::prelude::*;
 
+use crate::{enemies, player, states};
+
+use super::with_etities;
+
 #[derive(Component)]
 pub struct Collision {
     pub with: Entity,
 }
 
-use crate::{enemies, math, player, states, util};
-
-#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn collisions<M: math::distance::Metric>(
-    mut events: EventWriter<Collision>,
-    player_state: Query<
-        (&Transform, &util::size::Size),
-        (
-            Without<enemies::entity::Enemy>,
-            With<player::entity::Player>,
-        ),
-    >,
-    enemies_locations: Query<(Entity, &Transform, &util::size::Size), With<enemies::entity::Enemy>>,
-) {
-    let (player_transform, player_size) =
-        player_state.get_single().expect("Could not get the player");
-
-    let player_location = player_transform.translation;
-
-    enemies_locations.for_each(|(id, x, enemy_size)| {
-        if M::measure(&player_location, &x.translation) < player_size.radius + enemy_size.radius {
-            events.send(Collision { with: id });
-        };
-    });
+impl with_etities::CollisionEvent for Collision {
+    fn with_entity(with: Entity) -> Self {
+        Self { with }
+    }
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value

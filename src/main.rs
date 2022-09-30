@@ -15,9 +15,11 @@ mod collisions;
 mod enemies;
 mod math;
 mod movement;
+mod pickups;
 mod player;
 mod screens;
 mod states;
+mod trackers;
 mod util;
 
 fn main() {
@@ -36,6 +38,8 @@ fn main() {
         .add_plugin(enemies::HomingPlugin)
         .add_plugin(collisions::CollisionsPlugin)
         .add_plugin(movement::Plugin)
+        .add_plugin(trackers::TrackersPlugin)
+        .add_plugin(pickups::PickupsPlugin)
         .add_system(animation::animate_sprites)
         .run();
 }
