@@ -51,6 +51,7 @@ pub fn spawn_random_pickup(
     commands.spawn_bundle(PickupBundle::new(x, y, asset_server));
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 fn setup(mut commands: Commands, arena_size: Res<arena::Bounds>, asset_server: Res<AssetServer>) {
     spawn_random_pickup(&mut commands, &arena_size, &asset_server);
 }

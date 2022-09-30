@@ -6,8 +6,8 @@ pub struct Score {
 }
 
 impl Score {
-    pub fn new(value: i32) -> Self {
-        Score { value }
+    pub const fn new(value: i32) -> Self {
+        Self { value }
     }
 }
 

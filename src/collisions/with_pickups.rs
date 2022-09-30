@@ -15,6 +15,7 @@ impl with_etities::CollisionEvent for PickedUp {
     }
 }
 
+#[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn picked_up(
     mut commands: Commands,
     arena_size: Res<arena::Bounds>,
