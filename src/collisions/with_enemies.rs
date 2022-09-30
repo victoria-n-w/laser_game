@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{enemies, player, states};
+use crate::{enemies, player, trackers};
 
 use super::with_etities;
 
@@ -15,11 +15,18 @@ impl with_etities::CollisionEvent for Collision {
     }
 }
 
+#[derive(Component)]
+pub struct InvAfterDamage {
+    pub timer: Timer,
+}
+
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn on_collision(
     mut commands: Commands,
+    time: Res<Time>,
+    mut inv_period: ResMut<InvAfterDamage>,
     mut collisions: EventReader<Collision>,
-    mut publisher: EventWriter<states::TransitionInto>,
+    mut publisher: EventWriter<trackers::health::Damage>,
     player_state: Query<
         &player::attack::Attacking,
         (
@@ -28,6 +35,8 @@ pub fn on_collision(
         ),
     >,
 ) {
+    inv_period.timer.tick(time.delta());
+
     let attacking = player_state
         .get_single()
         .expect("Could not get a single player");
@@ -36,10 +45,10 @@ pub fn on_collision(
         if attacking.is_active() {
             commands.entity(collision.with).despawn_recursive();
         } else {
-            println!("COLLISION - YOU LOOSE HEALTH (to be implemented)");
-            publisher.send(states::TransitionInto {
-                state: states::AppState::GameOver,
-            });
+            if inv_period.timer.finished() {
+                inv_period.timer.reset();
+                publisher.send(trackers::health::Damage);
+            }
         };
     }
 }

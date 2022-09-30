@@ -27,6 +27,11 @@ fn damage(
         match health.hearts.pop() {
             Some(id) => {
                 commands.entity(id).despawn_recursive();
+                if health.hearts.len() == 0 {
+                    stage_change.send(states::TransitionInto {
+                        state: states::AppState::GameOver,
+                    })
+                };
             }
             None => stage_change.send(states::TransitionInto {
                 state: states::AppState::GameOver,

@@ -17,6 +17,9 @@ impl bevy::prelude::Plugin for CollisionsPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_event::<with_enemies::Collision>()
             .add_event::<with_pickups::PickedUp>()
+            .insert_resource(with_enemies::InvAfterDamage {
+                timer: Timer::from_seconds(0.5, false),
+            })
             .add_system_set(
                 SystemSet::on_update(states::AppState::Game)
                     .with_system(with_walls::system)

@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-mod health;
+pub mod health;
 pub mod score;
 
 pub struct TrackersPlugin;
