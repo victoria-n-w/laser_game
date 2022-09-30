@@ -49,7 +49,7 @@ fn new_heart(
         },
         texture: asset_server.load("love-shield.png"),
         transform: Transform {
-            translation: Vec3::new(x, y, -10_f32),
+            translation: Vec3::new(x, y, -0_f32),
             rotation: Quat::default(),
             scale: Vec3::new(1_f32, 1_f32, 1_f32),
         },
@@ -61,7 +61,7 @@ fn setup(mut commands: Commands, mut health: ResMut<HealthConfig>, asset_server:
     let (x, y) = health.top_left;
 
     let starting_x = x + health.width / 2.0;
-    let starting_y = y + health.height / 2.0;
+    let starting_y = y - health.height / 2.0;
 
     for i in 0..health.starting_health {
         let id = commands
@@ -85,9 +85,10 @@ impl Plugin for HealthPlugin {
             starting_health: 3,
             height: 50.0,
             width: 50.0,
-            top_left: (-400.0, -400.0),
+            top_left: (-400.0, 400.0),
             hearts: Vec::new(),
         })
+        .add_event::<Damage>()
         .add_system_set(SystemSet::on_enter(states::AppState::Game).with_system(setup))
         .add_system_set(
             SystemSet::on_update(states::AppState::Game)

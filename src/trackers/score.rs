@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::states;
+
 #[derive(Component)]
 pub struct Score {
     value: i32,
@@ -12,7 +14,7 @@ impl Score {
 }
 
 #[derive(Component)]
-pub struct ScoreText;
+struct ScoreText;
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
 pub fn setup(mut score: ResMut<Score>) {
@@ -26,7 +28,7 @@ pub struct Change {
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn update(
+fn update(
     mut events: EventReader<Change>,
     mut score: ResMut<Score>,
     mut query: Query<&mut Text, With<ScoreText>>,
@@ -40,7 +42,7 @@ pub fn update(
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
-pub fn spawn_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn spawn_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn_bundle(
             TextBundle::from_section(
@@ -60,4 +62,16 @@ pub fn spawn_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
             }),
         )
         .insert(ScoreText);
+}
+
+pub struct ScorePlugin;
+
+impl Plugin for ScorePlugin {
+    fn build(&self, app: &mut App) {
+        app.insert_resource(Score::new(0))
+            .add_event::<Change>()
+            .add_system_set(SystemSet::on_enter(states::AppState::Title).with_system(setup))
+            .add_system_set(SystemSet::on_enter(states::AppState::Game).with_system(spawn_ui))
+            .add_system_set(SystemSet::on_update(states::AppState::Game).with_system(update));
+    }
 }
