@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::states;
 
+mod health;
 pub mod score;
 
 pub struct TrackersPlugin;
