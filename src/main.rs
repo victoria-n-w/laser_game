@@ -15,6 +15,7 @@ mod collisions;
 mod enemies;
 mod math;
 mod movement;
+mod pickups;
 mod player;
 mod screens;
 mod states;
@@ -38,6 +39,7 @@ fn main() {
         .add_plugin(collisions::CollisionsPlugin)
         .add_plugin(movement::Plugin)
         .add_plugin(trackers::TrackersPlugin)
+        .add_plugin(pickups::PickupsPlugin)
         .add_system(animation::animate_sprites)
         .run();
 }

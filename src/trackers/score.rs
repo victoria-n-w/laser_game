@@ -19,7 +19,7 @@ pub fn setup(mut score: ResMut<Score>) {
 #[derive(Component)]
 /// Event used to indicate that the score should be increased
 pub struct Change {
-    value: i32,
+    pub value: i32,
 }
 
 #[allow(clippy::needless_pass_by_value)] // bevy requires Res to be passed by value
