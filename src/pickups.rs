@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use rand::Rng;
 
-use crate::{arena, collisions, states, trackers, util};
+use crate::{arena, collisions, states, util};
 
 #[derive(Component)]
 pub struct ScorePickup;
@@ -39,12 +39,7 @@ impl PickupBundle {
     }
 }
 
-#[derive(Component)]
-pub struct PickedUp {
-    id: Entity,
-}
-
-fn spawn_random_pickup(
+pub fn spawn_random_pickup(
     commands: &mut Commands,
     arena_size: &Res<arena::Bounds>,
     asset_server: &Res<AssetServer>,
@@ -56,20 +51,6 @@ fn spawn_random_pickup(
     commands.spawn_bundle(PickupBundle::new(x, y, asset_server));
 }
 
-fn picked_up(
-    mut commands: Commands,
-    arena_size: Res<arena::Bounds>,
-    asset_server: Res<AssetServer>,
-    mut events: EventReader<PickedUp>,
-    mut sender: EventWriter<trackers::score::Change>,
-) {
-    for event in events.iter() {
-        sender.send(trackers::score::Change { value: 10 });
-        commands.entity(event.id).despawn_recursive();
-        spawn_random_pickup(&mut commands, &arena_size, &asset_server);
-    }
-}
-
 fn setup(mut commands: Commands, arena_size: Res<arena::Bounds>, asset_server: Res<AssetServer>) {
     spawn_random_pickup(&mut commands, &arena_size, &asset_server);
 }
@@ -78,8 +59,6 @@ pub struct PickupsPlugin;
 
 impl Plugin for PickupsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<PickedUp>()
-            .add_system_set(SystemSet::on_enter(states::AppState::Game).with_system(setup))
-            .add_system_set(SystemSet::on_update(states::AppState::Game).with_system(picked_up));
+        app.add_system_set(SystemSet::on_enter(states::AppState::Game).with_system(setup));
     }
 }
